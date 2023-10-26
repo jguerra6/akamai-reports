@@ -1,7 +1,7 @@
 package request
 
 import (
-	"errors"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
@@ -18,8 +18,16 @@ func ReplaceParams(params map[string]string, baseString string) string {
 	return resultString
 }
 
-func AkamaiRequest(edgerc *edgegrid.Config, url string, params map[string]string) ([]byte, error) {
+type AkamaiError struct {
+	Message string
+	Code    int
+}
 
+func (e *AkamaiError) Error() string {
+	return fmt.Sprintf("Akamai Request Error: %s (Code: %d)", e.Message, e.Code)
+}
+
+func AkamaiRequest(edgerc *edgegrid.Config, url string, params map[string]string) ([]byte, error) {
 	client := http.Client{}
 
 	req, err := http.NewRequest(http.MethodGet, url, nil)
@@ -47,7 +55,12 @@ func AkamaiRequest(edgerc *edgegrid.Config, url string, params map[string]string
 	}
 
 	if resp.StatusCode != http.StatusOK {
-		return nil, errors.New(string(body))
+		errResp := &AkamaiError{
+			Message: fmt.Sprintf("Request from: %s and the qs: %s failed with the response: %s", req.URL, req.URL.RawQuery, string(body)),
+			Code:    resp.StatusCode,
+		}
+
+		return nil, errResp
 	}
 
 	return body, nil

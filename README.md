@@ -54,10 +54,6 @@ This will produce a new folder called `report` inside the data folder which will
 If all the data of a day is 0 it will be excluded so if you don't see a day for a specific CPCode that could be the reason.
 
 ### What's next?
-* Add multi-thread support
-* Add support for specific CPCodes and accounts
-* Improve some big functions logic
-* Add support for the house account
 * Improve error logging
 * Add custom separators as a flag
 

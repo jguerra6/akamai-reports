@@ -58,10 +58,6 @@ func GetAllCPCodes(edgerc *edgegrid.Config, switchKeys []*accountSwitch.AccountS
 	)
 
 	for _, switchKey := range switchKeys {
-		// This account has too many CP Codes causing a failure, currently it's being skipped but should be somehow handled
-		if switchKey.AccountName == "Brightcove Inc._Value Added Reseller" {
-			continue
-		}
 		key := switchKey.AccountSwitchKey
 		cpCodeMap[key], err = GetCpCodes(edgerc, key)
 		if err != nil {
