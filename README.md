@@ -41,8 +41,6 @@ Run the program with the `report` command and required parameters:
 go run main.go report -start "2023-09-01" -end "2023-09-27"
 ```
 
-**Note:** Currently the code is single threaded, so it will take it's time to complete all the requests since it's one per day and one per Account
-
 The required params are:
 
 | param |                     Description                      |
